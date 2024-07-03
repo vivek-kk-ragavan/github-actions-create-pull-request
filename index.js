@@ -17,16 +17,35 @@ async function run() {
         // If the body input is not provided, set it to an empty string
         body = body || '';
 
-        const response = await octokit.rest.pulls.create({
-            owner,
-            repo: repoName,
-            base,
-            head,
-            title,
-            body
-        });
+        try {
+            const response = await octokit.rest.pulls.create({
+                owner,
+                repo: repoName,
+                base,
+                head,
+                title,
+                body
+            });
 
-        core.setOutput('pull_request_url', response.data.html_url);
+            core.setOutput('pull_request_url', response.data.html_url);
+        } catch (error) {
+            if (error.status === 422 && error.message.includes('A pull request already exists')) {
+                const existingPR = await octokit.rest.pulls.list({
+                    owner,
+                    repo: repoName,
+                    state: 'open',
+                    head: `${owner}:${head}`
+                });
+                if (existingPR.data.length > 0) {
+                    core.setOutput('pull_request_url', existingPR.data[0].html_url);
+                    core.info(`Pull request already exists: ${existingPR.data[0].html_url}`);
+                } else {
+                    throw error;
+                }
+            } else {
+                throw error;
+            }
+        }
     } catch (error) {
         core.setFailed(error.message);
     }
