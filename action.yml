@@ -24,4 +24,4 @@ outputs:
     description: 'The URL of the created pull request'
 runs:
   using: 'node20'
-  main: 'index.js'
+  main: 'dist/index.js'
