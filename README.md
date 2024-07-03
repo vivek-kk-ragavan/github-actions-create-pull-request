@@ -1,4 +1,4 @@
-# github-actions-create-pull-request
+# Create Pull Request Action
 
 This GitHub Action allows you to create a pull request.
 
