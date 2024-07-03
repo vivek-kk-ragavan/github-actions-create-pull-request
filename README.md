@@ -1,6 +1,6 @@
 # github-actions-create-pull-request
 
-A GitHub Action to create a pull request using Octokit.
+This GitHub Action allows you to create a pull request.
 
 
 ## Inputs
