@@ -45,6 +45,7 @@ jobs:
           head: 'feature-branch'
           title: 'My new feature'
           body: 'This pull request adds a new feature.'
-      - name: Output pull request URL
-        run: echo "Pull request created: ${{ steps.create-pull-request.outputs.pull_request_url }}"
+      - name: Print Pull Request URL
+        run: |
+          echo "Pull request created: ${{ steps.create-pull-request.outputs.pull_request_url }}"
 ```
